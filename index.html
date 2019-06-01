@@ -297,6 +297,12 @@ We can also <strong>generate list items based on user's input</strong>. See E-ma
 				</td>
 				<td><code class="language-javascript">Awesomplete.DATA</code>: Identity function which just returns the original list item.</td>
 			</tr>
+			<tr>
+				<td><code>continuationHint</code></td>
+				<td>Conditionally shows a continuation hint at the bottom of the candidate list.  This function is called only if the list was truncated due to <code>maxItems</code>.</td>
+				<td>Function that takes one parameter, the number of unshown items after the candidate list has been truncated by <code>maxItems</code> (i.e., the number of items "below the bottom of the list"), and returns an array of two strings: the first is the custom text to display at the bottom of the menu, and the second is the value to use if that text is selected.  Typically, that value should be the empty string.</td>
+				<td><code>false</code>:  By default, no <code>continuationHint</code> function is run.  If one is supplied, then it is run only when truncation happens due to <code>maxItems</code>.</td>
+			</tr>
 		</tbody>
 	</table>
 </section>

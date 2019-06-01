@@ -38,7 +38,8 @@ var _ = function (input, o) {
 		container: _.CONTAINER,
 		item: _.ITEM,
 		replace: _.REPLACE,
-		tabSelect: false
+		tabSelect: false,
+		continuationHint: false
 	}, o);
 
 	this.index = -1;
@@ -299,6 +300,7 @@ _.prototype = {
 	evaluate: function() {
 		var me = this;
 		var value = this.input.value;
+		var truncated = false;
 
 		if (value.length >= this.minChars && this._list && this._list.length > 0) {
 			this.index = -1;
@@ -317,7 +319,16 @@ _.prototype = {
 				this.suggestions = this.suggestions.sort(this.sort);
 			}
 
+			if (this.suggestions.length > this.maxItems) {
+				truncated = this.suggestions.length - this.maxItems;
+			}
+
 			this.suggestions = this.suggestions.slice(0, this.maxItems);
+
+			if (truncated && this.continuationHint) {
+				var pair = this.continuationHint(truncated);
+				this.suggestions.push(new Suggestion(me.data(pair[0], pair[1])));
+			}
 
 			this.suggestions.forEach(function(text, index) {
 					me.ul.appendChild(me.item(text, value, index));
